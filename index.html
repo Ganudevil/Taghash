@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managemnent Initializer</title>
+    <!-- Include any necessary stylesheets or frameworks -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task Management</h1>
+
+    <form id="taskForm">
+        <label for="title">Task Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="description">Task Description:</label>
+        <textarea id="description" name="description"></textarea>
+
+        <label for="priority">Priority:</label>
+        <select id="priority" name="priority" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+
+        <label for="dueDate">Dead Date:</label>
+        <input type="date" id="dueDate" name="dueDate" required>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="To-Do">To-Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+
+        <button type="button" onclick="submitTask()">Create Task</button>
+		<button onclick="window.location.href='M:\Taghash\progress_track.html'">Track Progress</button>
+    </form>
+
+    <!-- Task list display, filter options, sorting options -->
+    <section id="taskList">
+        <!-- Task list will be displayed here -->
+    </section>
+
+    <!-- Include any necessary scripts at the end -->
+    <script>
+        // Function to submit a new task
+        function submitTask() {
+            // Get form data
+            const formData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                priority: document.getElementById('priority').value,
+                dueDate: document.getElementById('dueDate').value,
+                status: document.getElementById('status').value
+            };
+
+            // You can make an API request to submit the task to the backend
+            // Example:
+            // fetch('/api/tasks', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(formData),
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     // Handle the response, update the task list, etc.
+            // })
+            // .catch(error => console.error('Error:', error));
+
+            // For now, let's log the form data to the console
+            console.log('Task submitted:', formData);
+
+            // You can also update the task list on the frontend as needed
+            // (e.g., fetchTasks() function similar to the one in the previous examples)
+        }
+		
+		<!-- ... (your existing HTML code) -->
+
+<!-- Include any necessary scripts at the end -->
+    // Function to submit a new task
+    function submitTask() {
+        // Get form data
+        const formData = {
+            title: document.getElementById('title').value,
+            description: document.getElementById('description').value,
+            priority: document.getElementById('priority').value,
+            dueDate: document.getElementById('dueDate').value,
+            status: document.getElementById('status').value
+        };
+
+        // Make an API request to submit the task to the backend
+        fetch('/api/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // After successful submission, you can update the task list on the frontend
+            fetchTasks();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Function to fetch tasks from the backend and update the task list on the frontend
+    function fetchTasks() {
+        // You can make an API request to get tasks from the backend
+        fetch('/api/tasks')
+            .then(response => response.json())
+            .then(tasks => {
+                // Update the task list on the frontend
+                updateTaskList(tasks);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Function to update task list on the frontend
+    function updateTaskList(tasks) {
+        const taskListSection = document.getElementById('taskList');
+        // Clear existing content
+        taskListSection.innerHTML = '';
+
+        // Iterate through tasks and add them to the list
+        tasks.forEach(task => {
+            const taskItem = document.createElement('div');
+            taskItem.innerHTML = `
+                <p><strong>${task.title}</strong></p>
+                <p>Description: ${task.description || 'N/A'}</p>
+                <p>Priority: ${task.priority}</p>
+                <p>Due Date: ${task.dueDate}</p>
+                <p>Status: ${task.status}</p>
+                <hr>
+            `;
+            taskListSection.appendChild(taskItem);
+        });
+    }
+
+    // Fetch initial tasks when the page loads
+    fetchTasks();
+    // Function to fetch tasks from the backend and update the task list on the frontend
+    function fetchTasks() {
+        // You can make an API request to get tasks from the backend
+        // Example:
+        // fetch('/api/tasks')
+        //     .then(response => response.json())
+        //     .then(tasks => {
+        //         // Update the task list on the frontend
+        //     })
+        //     .catch(error => console.error('Error:', error));
+
+        // For now, let's log a placeholder message to the console
+        console.log('Fetching tasks from the backend...');
+    }	
+    </script>
+</body>
+</html>
+
+
